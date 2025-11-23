@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Aditya!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'gaming': ['Orbitron', 'sans-serif'],
+                        'body': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-green': '#39ff14',
+                        'neon-purple': '#b026ff',
+                        'dark-bg': '#0a0a0a',
+                        'card-bg': '#1a1a1a',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            'from': { textShadow: '0 0 10px #39ff14, 0 0 20px #39ff14' },
+                            'to': { textShadow: '0 0 20px #b026ff, 0 0 30px #b026ff' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+        }
+        .gaming-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+        }
+        .gaming-card:hover {
+            transform: translateY(-10px);
+            border-color: #39ff14;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+        }
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #39ff14;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-neon-green selection:text-black">
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 bg-dark-bg/90 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-gaming text-neon-green font-bold">ADITYA<span class="text-white">.LVL_UP</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="hover:text-neon-green px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#setup" class="hover:text-neon-green px-3 py-2 rounded-md text-sm font-medium transition-colors">The Setup</a>
+                        <a href="#wishes" class="hover:text-neon-green px-3 py-2 rounded-md text-sm font-medium transition-colors">Wishes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-neon-purple opacity-20 rounded-full blur-3xl filter"></div>
+            <div class="absolute top-40 -left-20 w-72 h-72 bg-neon-green opacity-10 rounded-full blur-3xl filter"></div>
+        </div>
+        
+        <div class="text-center z-10 px-4">
+            <div class="mb-6 animate-float">
+                <i class="fas fa-gamepad text-6xl md:text-8xl text-neon-green mb-4 filter drop-shadow-[0_0_10px_rgba(57,255,20,0.5)]"></i>
+            </div>
+            <h1 class="text-5xl md:text-8xl font-gaming font-bold mb-4 animate-glow">
+                HAPPY BIRTHDAY <br> <span class="text-white">ADITYA</span>
+            </h1>
+            <p class="text-gray-400 text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+                Respawning for another year. Level up initialized.
+            </p>
+            <button onclick="openLootBox()" class="bg-transparent border-2 border-neon-green text-neon-green hover:bg-neon-green hover:text-black font-gaming font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(57,255,20,0.3)]">
+                CLAIM LOOT BOX <i class="fas fa-gift ml-2"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Loot Box Modal (New Page Overlay) -->
+    <div id="loot-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 hidden backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-gray-900 border-2 border-red-500 rounded-2xl p-8 max-w-md w-full mx-4 text-center relative shadow-[0_0_50px_rgba(239,68,68,0.5)] animate-float">
+            <button onclick="closeLootBox()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            
+            <div class="mb-6 text-red-500 text-6xl animate-pulse">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h3 class="text-3xl font-gaming font-bold text-red-500 mb-2">LOOT BOX ERROR</h3>
+            <p class="text-gray-500 font-mono text-xs mb-6 tracking-widest">SYSTEM_FAILURE: INSUFFICIENT_FUNDS_DETECTED</p>
+            
+            <div class="bg-black/50 p-6 rounded-xl border border-red-500/30 mb-8 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <p class="text-2xl md:text-3xl text-white font-bold font-body leading-tight">
+                    "I don't have money for now 😭😭"
+                </p>
+            </div>
+            
+            <button onclick="closeLootBox()" class="w-full bg-red-600 hover:bg-red-700 text-white font-gaming font-bold py-4 px-8 rounded-xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] uppercase tracking-wider">
+                Mission Failed: Return
+            </button>
+        </div>
+    </div>
+
+    <!-- My Setup Section -->
+    <section id="setup" class="py-20 bg-card-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-gaming font-bold text-white mb-4 leading-tight">DREAM SETUP <br><span class="text-neon-purple">GIFTED BY SACHIN</span></h2>
+                <p class="text-xl text-neon-green font-gaming mb-2">(WHICH IS VIRTUAL 😁)</p>
+                <div class="h-1 w-20 bg-neon-purple mx-auto rounded-full mt-4"></div>
+                <p class="mt-4 text-gray-400">The ultimate gaming command center (that exists on this website).</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- PC Build -->
+                <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-microchip text-9xl text-neon-purple"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-neon-purple text-2xl mr-4">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">The Core</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-neon-green text-xs mr-2"></i> RTX 4090 GPU</li>
+                        <li class="flex items-center"><i class="fas fa-check text-neon-green text-xs mr-2"></i> Intel Core i9-14900K</li>
+                        <li class="flex items-center"><i class="fas fa-check text-neon-green text-xs mr-2"></i> 64GB DDR5 RAM</li>
+                        <li class="flex items-center"><i class="fas fa-check text-neon-green text-xs mr-2"></i> Liquid Cooling</li>
+                    </ul>
+                </div>
+
+                <!-- Monitor -->
+                <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-tv text-9xl text-blue-500"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-blue-500 text-2xl mr-4">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">Visuals</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 text-xs mr-2"></i> 49" Odyssey OLED G9</li>
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 text-xs mr-2"></i> 240Hz Refresh Rate</li>
+                        <li class="flex items-center"><i class="fas fa-check text-blue-500 text-xs mr-2"></i> 0.03ms Response Time</li>
+                    </ul>
+                </div>
+
+                <!-- Peripherals -->
+                <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-keyboard text-9xl text-yellow-500"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-yellow-500 text-2xl mr-4">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">Input</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-yellow-500 text-xs mr-2"></i> Custom Mech Keyboard</li>
+                        <li class="flex items-center"><i class="fas fa-check text-yellow-500 text-xs mr-2"></i> Superlight Wireless Mouse</li>
+                        <li class="flex items-center"><i class="fas fa-check text-yellow-500 text-xs mr-2"></i> XXL Desk Mat</li>
+                    </ul>
+                </div>
+
+                <!-- Audio -->
+                <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-headphones text-9xl text-pink-500"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-pink-500 text-2xl mr-4">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">Audio</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-pink-500 text-xs mr-2"></i> Studio Headphones</li>
+                        <li class="flex items-center"><i class="fas fa-check text-pink-500 text-xs mr-2"></i> XLR Microphone</li>
+                        <li class="flex items-center"><i class="fas fa-check text-pink-500 text-xs mr-2"></i> Audio Interface</li>
+                    </ul>
+                </div>
+
+                 <!-- Comfort -->
+                 <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-chair text-9xl text-red-500"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-red-500 text-2xl mr-4">
+                            <i class="fas fa-chair"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">Throne</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-red-500 text-xs mr-2"></i> Ergonomic Mesh Chair</li>
+                        <li class="flex items-center"><i class="fas fa-check text-red-500 text-xs mr-2"></i> Adjustable Lumbar</li>
+                        <li class="flex items-center"><i class="fas fa-check text-red-500 text-xs mr-2"></i> RGB Floor Mat</li>
+                    </ul>
+                </div>
+
+                <!-- Consoles -->
+                <div class="gaming-card bg-dark-bg p-6 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fab fa-playstation text-9xl text-white"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="text-xl font-bold font-gaming">Side Arms</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-white text-xs mr-2"></i> PS5 Pro</li>
+                        <li class="flex items-center"><i class="fas fa-check text-white text-xs mr-2"></i> Nintendo Switch OLED</li>
+                        <li class="flex items-center"><i class="fas fa-check text-white text-xs mr-2"></i> Steam Deck</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Message Section -->
+    <section id="wishes" class="py-20 min-h-[50vh] flex items-center justify-center relative">
+        <div class="text-center px-4 max-w-3xl">
+            <h2 class="text-4xl md:text-5xl font-gaming font-bold mb-8">MISSION <span class="text-neon-green">STATUS</span></h2>
+            <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl shadow-2xl relative">
+                <i class="fas fa-quote-left absolute top-4 left-4 text-gray-700 text-4xl"></i>
+                <p class="text-xl md:text-2xl leading-relaxed text-gray-300 font-light">
+                    "Happy Birthday, Aditya! May your frame rates be high and your temperatures be low. Here's to another year of legendary loot, epic wins, and zero lag. Have a blast!"
+                </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <div class="text-neon-green text-3xl animate-bounce">
+                        <i class="fas fa-cake-candles"></i>
+                    </div>
+                    <div class="text-neon-purple text-3xl animate-bounce" style="animation-delay: 0.1s">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="text-blue-500 text-3xl animate-bounce" style="animation-delay: 0.2s">
+                        <i class="fas fa-ghost"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 text-center border-t border-gray-900">
+        <p class="text-gray-500 font-gaming text-sm">DESIGNED FOR PLAYER 1: ADITYA</p>
+    </footer>
+
+    <!-- Confetti Logic -->
+    <script>
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const colors = ['#39ff14', '#b026ff', '#00ffff', '#ffff00', '#ff00ff'];
+
+        class Particle {
+            constructor(x, y, velocityX, velocityY) {
+                this.x = x;
+                this.y = y;
+                this.velocityX = velocityX;
+                this.velocityY = velocityY;
+                this.size = Math.random() * 5 + 2;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.life = 200;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+            }
+
+            update() {
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+                this.velocityY += 0.05; // gravity
+                this.life--;
+                this.rotation += this.rotationSpeed;
+                
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.velocityX *= -0.6;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function createConfetti(x, y, count) {
+            for(let i = 0; i < count; i++) {
+                const velocityX = (Math.random() - 0.5) * 15;
+                const velocityY = (Math.random() - 1) * 15 - 5;
+                particles.push(new Particle(x, y, velocityX, velocityY));
+            }
+        }
+
+        // Automatic confetti at intervals
+        setInterval(() => {
+            createConfetti(Math.random() * canvas.width, -20, 5);
+        }, 200);
+
+        // Open Loot Box Modal
+        function openLootBox() {
+            createConfetti(canvas.width / 2, canvas.height / 2, 200);
+            const modal = document.getElementById('loot-modal');
+            modal.classList.remove('hidden');
+        }
+
+        // Close Loot Box Modal
+        function closeLootBox() {
+            const modal = document.getElementById('loot-modal');
+            modal.classList.add('hidden');
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for(let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                if(particles[i].life <= 0 || particles[i].y > canvas.height + 20) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
